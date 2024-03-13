@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YogaApplication.Views.ViewClasses"
+             xmlns:models="clr-namespace:YogaApplication.Model"
+             Title="ViewClasses">
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
+
+
+        <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10">
+            <Label Text="Date:" VerticalOptions="Center"/>
+            <DatePicker x:Name="datePicker" VerticalOptions="Center"/>
+            <Label Text="Time:" VerticalOptions="Center"/>
+            <TimePicker x:Name="timePicker" VerticalOptions="Center"/>
+            <Button Text="Apply Filters" x:Name="ApplyFilters" Clicked="ApplyFilters_Clicked"/>
+        </StackLayout>
+
+        <CollectionView 
+                VerticalOptions="Fill"
+                ItemsSource="{Binding YogaCourses}"
+                SelectionMode="None"
+          x:Name="cvCourses"
+          Grid.Row="1">
+            <CollectionView.Header>
+
+                <Grid Padding="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Text="Class Type"
+                             FontSize="Large"
+                             FontAttributes="Bold"
+                             Grid.Column="0"
+                         VerticalTextAlignment="Center"
+                         />
+
+                    <Label Text="Course Date"
+                             FontSize="Large"
+                             FontAttributes="Bold"
+                             Grid.Column="1"
+                             VerticalTextAlignment="Center"
+                             />
+                    
+                    <Label Text="Course Time"
+                             FontSize="Large"
+                             FontAttributes="Bold"
+                             Grid.Column="2"
+                             VerticalTextAlignment="Center"
+                             />
+
+                    <Label Text="Duration (Min)"
+                             FontSize="Large"
+                             FontAttributes="Bold"
+                             Grid.Column="3"/>
+                </Grid>
+
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:YogaCourse">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <!-- Define the "Update" action -->
+                            <SwipeItems>
+                                <SwipeItem Text="Add To Cart" BackgroundColor="GreenYellow" IconImageSource="update_icon.png" 
+                                         Command="{Binding Source={x:Reference cvCourses}, Path=BindingContext.AddToCartCommand}" CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding ClassType}"
+                                 HorizontalOptions="Fill" VerticalTextAlignment="Center" Grid.Column="0"/>
+                            <Label Text="{Binding CourseDate}"
+                                 HorizontalOptions="Fill" VerticalTextAlignment="Center" Grid.Column="1"/>
+                            <Label Text="{Binding CourseTime}"
+                                 HorizontalOptions="Fill" VerticalTextAlignment="Center" Grid.Column="2"/>
+                            <Label Text="{Binding Duration}"
+                                 HorizontalOptions="Fill" VerticalTextAlignment="Center" Grid.Column="3"/>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <Button Grid.Row="2" Text="CheckOut" x:Name="CheckOut" Clicked="CheckOut_Clicked"
+              Margin="20"/>
+    </Grid>
+</ContentPage>

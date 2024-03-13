@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YogaApplication.Views.CartPage"
+             xmlns:models="clr-namespace:YogaApplication.Model"
+             Title="CartPage">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <Label Text="Enter User Email(*)" />
+        <Entry x:Name="userEmail" x:DataType="x:String" />
+
+
+        <CollectionView
+        VerticalOptions="Fill"
+        ItemsSource="{Binding CartItems}"
+        SelectionMode="None"
+        x:Name="cvCartItems"
+        Grid.Row="1">
+            <CollectionView.Header>
+
+                <Grid Padding="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Course Name"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       Grid.Column="0"
+                       VerticalTextAlignment="Center" />
+
+                    <Label Text="Course Date"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       Grid.Column="1"
+                       VerticalTextAlignment="Center" />
+
+                    <Label Text="Total"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       Grid.Column="2"
+                       VerticalTextAlignment="Center" />
+                </Grid>
+
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Cart">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <!-- Define the "Remove" action -->
+                            <SwipeItems>
+                                <SwipeItem Text="Remove"
+                                       BackgroundColor="Red"
+                                       IconImageSource="remove_icon.png"
+                                       Command="{Binding Source={x:Reference cvCartItems}, Path=BindingContext.RemoveFromCartCommand}"
+                                       CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding CourseName}"
+                               HorizontalOptions="Fill"
+                               VerticalTextAlignment="Center"
+                               Grid.Column="0" />
+                            <Label Text="{Binding CourseDate}"
+                               HorizontalOptions="Fill"
+                               VerticalTextAlignment="Center"
+                               Grid.Column="1" />
+                            <Label Text="{Binding Total}"
+                               HorizontalOptions="Fill"
+                               VerticalTextAlignment="Center"
+                               Grid.Column="2" />
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+        
+        <Button Grid.Row="3"
+    Text="Proceed to Checkout"
+    Clicked="ProceedToCheckout_Clicked"
+    Margin="20" />
+
+
+    </Grid>
+
+</ContentPage>
